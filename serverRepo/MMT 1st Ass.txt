@@ -1,0 +1,22 @@
+- Một server trung tâm giữ thông tin về các clients đang kết nối và lưu trữ những tập tin nào.
+
+- Một client thông báo cho server về những tệp có trong thư mục địa phương của nó nhưng không truyền thực sự dữ liệu của các tập tin đó tới server.
+
+- Khi một client yêu cầu một tệp mà không có trong thư mục của nó, một yêu cầu được gửi đến server. Server xác định xem các client khác có lưu trữ tệp được yêu cầu hay không và gửi danh tính của họ cho client yêu cầu. Client sẽ chọn một nguồn phù hợp và sau đó trực tiếp tải tệp từ nguồn đó mà không cần can thiệp từ server.
+
+- Nhiều client có thể tải các tệp khác nhau từ một client mục tiêu vào cùng một thời điểm cụ thể. Điều này đòi hỏi code của client phải hỗ trợ đa luồng (multi-thread).
+
+- Client có một trình thông dịch dòng lệnh đơn giản (command-shell) được sử dụng để chấp nhận hai loại lệnh:
+	+ publish lname fname: Một tệp địa phương (được lưu trữ trong hệ thống tệp của client tại lname) được thêm vào kho lưu trữ của client với tên tệp là fname và thông tin này được truyền đến server. 
+	+ fetch fname: Lấy một bản sao của tệp mục tiêu và thêm nó vào kho lưu trữ địa phương.
+
+- Máy chủ có một trình thông dịch dòng lệnh đơn giản: 
+	+ discover hostname: Khám phá danh sách các tệp địa phương trên máy chủ có tên là "hostname".
+	+ ping hostname: Kiểm tra trực tiếp trạng thái hoạt động của máy chủ có tên là "hostname".
+
+- Tất cả các thiết bị được kết nối thông qua Internet. Việc phân tách chúng là quan điểm logic về hoạt động của giao thức.
+
+
+
+
+

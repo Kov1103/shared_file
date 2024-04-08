@@ -1,0 +1,85 @@
+.data
+	input1: .asciiz  "Nhap n: "
+	input2: .asciiz  "[ "
+	input3: .asciiz  " ] = "
+	output: .asciiz  "\nMang da nhap: "
+	array: .word  0:10  # int array[10]
+	down: .asciiz "\n"
+.text 
+main:
+# Nhap n
+la $a0, input1
+li $v0, 4
+syscall
+
+li $v0, 5
+syscall
+move $t0, $v0
+
+# Tao mang 
+addi $t1, $0, 0
+la $a1, array
+
+NhapMang:
+	# Kiem tra so lan lap
+	subu $t2, $t1, $t0
+	bgez $t2, KetThucNhap
+	
+	# Dau nhac nhap
+	la $a0, input2
+	li $v0, 4
+	syscall
+	
+	move $a0, $t1
+	li $v0, 1
+	syscall
+	
+	la $a0, input3
+	li $v0, 4
+	syscall
+	
+	# Nhap so vao mang
+	li $v0, 5
+	syscall
+	sw $v0, 0($a1)
+	
+	# Update chi so
+	addi $t1, $t1, 1
+	addi $a1, $a1, 4
+	
+	j NhapMang
+
+KetThucNhap:
+	la $a0, output
+	li $v0, 4
+	syscall
+	
+# Khoi tao
+	la $a1, array
+	addi $t1, $0, 0
+	
+XuatMang:
+	# Kiem tra so lan lap
+	subu $t2, $t1, $t0
+	bgez $t2, KetThucXuat
+	
+	# Xuat phan tu array[i]
+	lw $a0, 0($a1)
+	li $v0, 1
+	syscall
+	
+	# Xuat khoang trang
+	addi  $a0, $zero, 0x20
+ 	li $v0, 11
+  	syscall
+  	
+  	# Update chi so
+  	addi $t1, $t1, 1
+  	addi $a1, $a1, 4
+  	
+  	j XuatMang
+  
+KetThucXuat:
+	li $v0, 10
+	syscall
+
